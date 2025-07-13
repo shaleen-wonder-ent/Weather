@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import WeatherCard from './components/WeatherCard'
 import SearchBar from './components/SearchBar'
+import AnimatedSun from './components/AnimatedSun'
 import WeatherService from './services/WeatherService'
 import './App.css'
 
@@ -135,6 +136,7 @@ function App() {  const [weatherData, setWeatherData] = useState(null)
 
           {!weatherData && !loading && !error && (
             <div className="welcome">
+              <AnimatedSun />
               <div className="welcome-icon">🌍</div>
               <h2>Welcome to Weather App</h2>
               <p>Search for a city to see current weather conditions</p>

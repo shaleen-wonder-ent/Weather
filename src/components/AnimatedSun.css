@@ -1,0 +1,70 @@
+.animated-sun-container {
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.animated-sun {
+  color: #FFD700;
+  filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6));
+  animation: sunRotate 10s linear infinite, sunGlow 3s ease-in-out infinite alternate;
+}
+
+.sun-rays {
+  transform-origin: 60px 60px;
+  animation: rayRotate 15s linear infinite;
+}
+
+.sun-face {
+  animation: facePulse 4s ease-in-out infinite;
+}
+
+@keyframes sunRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rayRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes sunGlow {
+  from {
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6));
+  }
+  to {
+    filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.9));
+  }
+}
+
+@keyframes facePulse {
+  0%, 100% {
+    fill-opacity: 0.1;
+  }
+  50% {
+    fill-opacity: 0.3;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .animated-sun {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .animated-sun {
+    width: 80px;
+    height: 80px;
+  }
+}
