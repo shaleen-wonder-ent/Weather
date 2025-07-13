@@ -1,0 +1,83 @@
+.animated-sun {
+  display: inline-block;
+  color: #FFD700; /* Golden color for the sun */
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+}
+
+.sun-svg {
+  animation: rotateSun 8s linear infinite;
+  transform-origin: center;
+}
+
+.sun-rays {
+  animation: rotateRays 12s linear infinite reverse;
+  transform-origin: 100px 100px;
+}
+
+.sun-face {
+  animation: pulse 3s ease-in-out infinite;
+}
+
+.sun-eye,
+.sun-smile {
+  animation: fadeIn 2s ease-in-out infinite alternate;
+}
+
+/* Sun rotation animation */
+@keyframes rotateSun {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Rays counter-rotation for more dynamic effect */
+@keyframes rotateRays {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Gentle pulse for the sun face */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.02);
+  }
+}
+
+/* Fade animation for facial features */
+@keyframes fadeIn {
+  0% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Hover effects */
+.animated-sun:hover .sun-svg {
+  animation-duration: 2s;
+  filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.5));
+}
+
+.animated-sun:hover .sun-rays {
+  animation-duration: 3s;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .animated-sun {
+    filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.3));
+  }
+}
