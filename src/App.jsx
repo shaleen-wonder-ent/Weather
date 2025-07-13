@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import WeatherCard from './components/WeatherCard'
 import SearchBar from './components/SearchBar'
+import ForecastSection from './components/ForecastSection'
 import WeatherService from './services/WeatherService'
 import './App.css'
 
-function App() {  const [weatherData, setWeatherData] = useState(null)
+function App() {
+  const [weatherData, setWeatherData] = useState(null)
+  const [forecastData, setForecastData] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [forecastLoading, setForecastLoading] = useState(false)
   const [locationLoading, setLocationLoading] = useState(false)
   const [error, setError] = useState(null)
+  const [forecastError, setForecastError] = useState(null)
   const [favorites, setFavorites] = useState([])
 
   // Load favorites from localStorage on component mount
@@ -27,29 +32,78 @@ function App() {  const [weatherData, setWeatherData] = useState(null)
     if (!city.trim()) return
 
     setLoading(true)
+    setForecastLoading(true)
     setError(null)
+    setForecastError(null)
 
     try {
-      const data = await WeatherService.getWeatherByCity(city)
-      setWeatherData(data)
+      // Fetch current weather
+      const weatherPromise = WeatherService.getWeatherByCity(city)
+      
+      // Fetch forecast data
+      const forecastPromise = WeatherService.getFiveDayForecast(city)
+      
+      // Execute both requests in parallel
+      const [weatherResult, forecastResult] = await Promise.allSettled([
+        weatherPromise,
+        forecastPromise
+      ])
+      
+      // Handle weather data
+      if (weatherResult.status === 'fulfilled') {
+        setWeatherData(weatherResult.value)
+      } else {
+        setError(weatherResult.reason.message || 'Failed to fetch weather data')
+        setWeatherData(null)
+      }
+      
+      // Handle forecast data
+      if (forecastResult.status === 'fulfilled') {
+        setForecastData(forecastResult.value)
+      } else {
+        setForecastError(forecastResult.reason.message || 'Failed to fetch forecast data')
+        setForecastData(null)
+      }
+      
     } catch (err) {
       setError(err.message || 'Failed to fetch weather data')
       setWeatherData(null)
+      setForecastData(null)
     } finally {
       setLoading(false)
+      setForecastLoading(false)
     }
   }
 
   const handleLocationSearch = async () => {
     setLocationLoading(true)
     setError(null)
+    setForecastError(null)
 
     try {
       const data = await WeatherService.getCurrentLocationWeather()
       setWeatherData(data)
+      
+      // Also fetch forecast for current location
+      setForecastLoading(true)
+      try {
+        // Get coordinates from weather data to fetch forecast
+        const forecastData = await WeatherService.getFiveDayForecastByCoords(
+          data.coord.lat, 
+          data.coord.lon
+        )
+        setForecastData(forecastData)
+      } catch (forecastErr) {
+        setForecastError(forecastErr.message || 'Failed to fetch forecast data')
+        setForecastData(null)
+      } finally {
+        setForecastLoading(false)
+      }
+      
     } catch (err) {
       setError(err.message || 'Failed to detect your location')
       setWeatherData(null)
+      setForecastData(null)
     } finally {
       setLocationLoading(false)
     }
@@ -126,11 +180,18 @@ function App() {  const [weatherData, setWeatherData] = useState(null)
           )}
 
           {weatherData && !loading && (
-            <WeatherCard 
-              weatherData={weatherData}
-              onAddToFavorites={addToFavorites}
-              isFavorite={favorites.includes(weatherData.name)}
-            />
+            <>
+              <WeatherCard 
+                weatherData={weatherData}
+                onAddToFavorites={addToFavorites}
+                isFavorite={favorites.includes(weatherData.name)}
+              />
+              <ForecastSection 
+                forecastData={forecastData}
+                loading={forecastLoading}
+                error={forecastError}
+              />
+            </>
           )}
 
           {!weatherData && !loading && !error && (

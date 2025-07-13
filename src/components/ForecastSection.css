@@ -1,0 +1,151 @@
+.forecast-section {
+  margin-top: 24px;
+  width: 100%;
+}
+
+.forecast-title {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.forecast-container {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.forecast-list {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: stretch;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 8px 0;
+}
+
+/* Custom scrollbar for webkit browsers */
+.forecast-list::-webkit-scrollbar {
+  height: 6px;
+}
+
+.forecast-list::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.forecast-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.forecast-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Loading state */
+.forecast-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.forecast-loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 12px;
+}
+
+/* Error state */
+.forecast-error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+}
+
+.forecast-error p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Animation for spinner */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .forecast-container {
+    padding: 16px;
+    margin: 0 -10px;
+  }
+  
+  .forecast-list {
+    gap: 12px;
+    padding: 4px 0;
+    justify-content: flex-start;
+  }
+  
+  .forecast-title {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .forecast-section {
+    margin-top: 16px;
+  }
+  
+  .forecast-container {
+    border-radius: 16px;
+    padding: 12px;
+  }
+  
+  .forecast-list {
+    gap: 8px;
+  }
+  
+  .forecast-title {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+}
+
+/* Smooth fade-in animation */
+.forecast-section {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
