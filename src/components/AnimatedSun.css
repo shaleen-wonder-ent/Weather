@@ -1,0 +1,84 @@
+.animated-sun-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.animated-sun {
+  color: #FFD700;
+  filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
+  animation: sunRotate 8s linear infinite;
+  transition: all 0.3s ease;
+}
+
+.animated-sun:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.8));
+}
+
+.sun-body {
+  animation: sunPulse 3s ease-in-out infinite alternate;
+}
+
+.sun-rays {
+  animation: rayFlicker 4s ease-in-out infinite;
+  transform-origin: 60px 60px;
+}
+
+.sun-face {
+  animation: faceWiggle 6s ease-in-out infinite;
+}
+
+/* Rotation animation for the entire sun */
+@keyframes sunRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Pulsing animation for the sun body */
+@keyframes sunPulse {
+  0% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Flickering animation for the rays */
+@keyframes rayFlicker {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+/* Subtle wiggle animation for the face */
+@keyframes faceWiggle {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  25% {
+    transform: translateY(-1px);
+  }
+  75% {
+    transform: translateY(1px);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .animated-sun {
+    width: 100px;
+    height: 100px;
+  }
+}
